@@ -70,8 +70,30 @@
 			</div>
 		</nav>
 		<br><br><br>
-		<div class="col-md-4 col-md-offset-4">
-			<a href="register_manager.php"><button class="btn btn-primary btn-block">Register Manager</button></a>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<a href="register_manager.php"><button class="btn btn-primary btn-block">Register Manager</button></a>
+			</div>
 		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<a href="create_project.php"><button class="btn btn-warning btn-block">Create Project</button></a>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<a href="view_manager.php"><button class="btn btn-info btn-block">View Managers</button></a>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<a href="view_project.php"><button class="btn btn-success btn-block">View Projects</button></a>
+			</div>
+		</div>
+		
+
 </body>
 </html>

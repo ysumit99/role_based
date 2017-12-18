@@ -3,9 +3,9 @@ require('config.php');
 
 $error_array = array();//stores error message of duplicate user
 
-if(isset($_POST['register_manager']))
+if(isset($_POST['register_user']))
   {
-    $manager_id = strip_tags($_POST['manager_id']);
+    $registered_user_id = strip_tags($_POST['registered_user_id']);
     $password = strip_tags($_POST['password']);
     $password = md5($password);
 

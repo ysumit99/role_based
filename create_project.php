@@ -3,22 +3,21 @@ require('config.php');
 
 $error_array = array();//stores error message of duplicate user
 
-if(isset($_POST['register_manager']))
+if(isset($_POST['create_project']))
   {
-    $manager_id = strip_tags($_POST['manager_id']);
-    $password = strip_tags($_POST['password']);
-    $password = md5($password);
+    $project_id = strip_tags($_POST['project_id']);
+    
 
     //check if already exists
-	$check_query = mysqli_query($con,"SELECT * FROM manager WHERE user_id = '$manager_id'");
+	$check_query = mysqli_query($con,"SELECT * FROM project WHERE project_id = '$project_id'");
 	
 	if(mysqli_num_rows($check_query) == 0)
 	{
-		$insert_query = mysqli_query($con,"INSERT INTO manager VALUES (NULL,'$manager_id','$password')");
+		$insert_query = mysqli_query($con,"INSERT INTO project VALUES (NULL,'$project_id')");
 	}
 	else
 	{
-		array_push($error_array, "This user name is already taken!!<br>");
+		array_push($error_array, "This project already exists!!<br>");
 	}
 		
 
@@ -111,16 +110,15 @@ if(isset($_POST['register_manager']))
 		<div class="col-md-6 col-md-offset-3">
 			<form method="POST">
 		        	
-					 <input type="text" class="form-control" placeholder="Username" name="manager_id" required>
+					 <input type="text" class="form-control" placeholder="project name" name="project_id" required>
 						<span class="error">
-              <?php if(in_array("This user name is already taken!!<br>", $error_array))  echo "This user name is already taken!!<br>";
+              <?php if(in_array("This project already exists!!<br>", $error_array))  echo "This project already exists!!<br>";
              ?></span>
 					 <br>
 					
-					 <input type="password" class="form-control" placeholder="Password" name="password" required>
-					 <br>
+					 
 
-					 <button class="btn btn-success btn-block" name="register_manager">Register Manager</button>
+					 <button class="btn btn-success btn-block" name="create_project">Create Project</button>
 
 		        </form>
 

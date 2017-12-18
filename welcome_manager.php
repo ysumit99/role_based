@@ -1,38 +1,7 @@
-<?php
-require('config.php');
-
-$error_array = array();//stores error message of duplicate user
-
-if(isset($_POST['register_manager']))
-  {
-    $manager_id = strip_tags($_POST['manager_id']);
-    $password = strip_tags($_POST['password']);
-    $password = md5($password);
-
-    //check if already exists
-	$check_query = mysqli_query($con,"SELECT * FROM manager WHERE user_id = '$manager_id'");
-	
-	if(mysqli_num_rows($check_query) == 0)
-	{
-		$insert_query = mysqli_query($con,"INSERT INTO manager VALUES (NULL,'$manager_id','$password')");
-	}
-	else
-	{
-		array_push($error_array, "This user name is already taken!!<br>");
-	}
-		
-
-    
-
-    
-   }
-
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Register New Manager</title>
+	<title>Welcome Manager</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
@@ -59,12 +28,11 @@ if(isset($_POST['register_manager']))
 			          <span class="icon-bar"></span>
 			          <span class="icon-bar"></span>
 			        </button>
-
 			    <a href = "#" class = "navbar-brand" style="color: blue;"> <i class=" fa fa-id-card-o " style="font-size:32px; color: green;" aria-hidden="true"></i>&nbsp; Role based system </a>
 			  </div>
 
 			   <?php 
-					
+					require('config.php');
 					session_start();
 					  if(isset($_SESSION['user_id'])) {
 					  $userLoggedIn = $_SESSION['user_id'];
@@ -101,33 +69,31 @@ if(isset($_POST['register_manager']))
 			
 			</div>
 		</nav>
+		<br><br><br>
 		<div class="row">
-			<div class="col-md-2 col-md-offset-1">
-				<a href="welcome_admin.php"><button type="button" class="btn btn-danger" > <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</button></a>
+			<div class="col-md-4 col-md-offset-4">
+				<a href="register_user.php"><button class="btn btn-primary btn-block">Register User</button></a>
 			</div>
 		</div>
 		<br>
-
-		<div class="col-md-6 col-md-offset-3">
-			<form method="POST">
-		        	
-					 <input type="text" class="form-control" placeholder="Username" name="manager_id" required>
-						<span class="error">
-              <?php if(in_array("This user name is already taken!!<br>", $error_array))  echo "This user name is already taken!!<br>";
-             ?></span>
-					 <br>
-					
-					 <input type="password" class="form-control" placeholder="Password" name="password" required>
-					 <br>
-
-					 <button class="btn btn-success btn-block" name="register_manager">Register Manager</button>
-
-		        </form>
-
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<a href="assign_project.php"><button class="btn btn-warning btn-block">Assign Project</button></a>
+			</div>
 		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<a href="view_user.php"><button class="btn btn-info btn-block">View Users</button></a>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<a href="view_project_manager.php"><button class="btn btn-success btn-block">View Projects</button></a>
+			</div>
+		</div>
+		
 
-
-
-	</body>
-	</html>
-
+</body>
+</html>

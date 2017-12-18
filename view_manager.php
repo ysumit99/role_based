@@ -1,38 +1,13 @@
 <?php
 require('config.php');
 
-$error_array = array();//stores error message of duplicate user
-
-if(isset($_POST['register_manager']))
-  {
-    $manager_id = strip_tags($_POST['manager_id']);
-    $password = strip_tags($_POST['password']);
-    $password = md5($password);
-
-    //check if already exists
-	$check_query = mysqli_query($con,"SELECT * FROM manager WHERE user_id = '$manager_id'");
-	
-	if(mysqli_num_rows($check_query) == 0)
-	{
-		$insert_query = mysqli_query($con,"INSERT INTO manager VALUES (NULL,'$manager_id','$password')");
-	}
-	else
-	{
-		array_push($error_array, "This user name is already taken!!<br>");
-	}
-		
-
-    
-
-    
-   }
-
+$manger_query = mysqli_query($con,"SELECT * FROM manager");
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Register New Manager</title>
+	<title>Welcome Admin</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
@@ -59,7 +34,6 @@ if(isset($_POST['register_manager']))
 			          <span class="icon-bar"></span>
 			          <span class="icon-bar"></span>
 			        </button>
-
 			    <a href = "#" class = "navbar-brand" style="color: blue;"> <i class=" fa fa-id-card-o " style="font-size:32px; color: green;" aria-hidden="true"></i>&nbsp; Role based system </a>
 			  </div>
 
@@ -108,26 +82,40 @@ if(isset($_POST['register_manager']))
 		</div>
 		<br>
 
-		<div class="col-md-6 col-md-offset-3">
-			<form method="POST">
-		        	
-					 <input type="text" class="form-control" placeholder="Username" name="manager_id" required>
-						<span class="error">
-              <?php if(in_array("This user name is already taken!!<br>", $error_array))  echo "This user name is already taken!!<br>";
-             ?></span>
-					 <br>
-					
-					 <input type="password" class="form-control" placeholder="Password" name="password" required>
-					 <br>
+		<div class="col-md-8 col-md-offset-2">
+    <div class="well">
+        <center><h4 style="color:green;">Managers</h4></center>
 
-					 <button class="btn btn-success btn-block" name="register_manager">Register Manager</button>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Manager</th>
+                    <th>Users Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+            <?php
+            $count = 1;
+             
+            while($results = mysqli_fetch_array($manger_query)){
+            // $results = mysql_fetch_array($raw_results) puts data from database into array, while it's valid it does the loop
+                          echo "<tr>
+                <td> ".$count++."</td>
+                <td>".$results['user_id']."</td>
+                <td>".$results['user_id']."</td>
+                
 
-		        </form>
+                </tr>";
+                
+                // posts results gotten from database(title and text) you can also show id ($results['id'])
+            }
 
-		</div>
-
-
+            ?>
+            </tbody>
+            </table>
+        </div>
+    </div>
 
 	</body>
 	</html>
-
