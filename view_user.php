@@ -1,5 +1,6 @@
 <?php
 	require('config.php');
+	//error_reporting(0);
 	session_start();
 	  if(isset($_SESSION['user_id'])) {
 	  $userLoggedIn = $_SESSION['user_id'];
@@ -101,13 +102,28 @@ $manger_query = mysqli_query($con,"SELECT * FROM user WHERE manager = '$userLogg
              
             while($results = mysqli_fetch_array($manger_query)){
             // $results = mysql_fetch_array($raw_results) puts data from database into array, while it's valid it does the loop
-                          echo "<tr>
+            	$temp = $results['registered_user_id'];
+            	$get_project_assigned = mysqli_query($con,"SELECT * FROM project_assignment WHERE user_id = '$temp' ");
+            	$store_project = array();
+
+            	while($store_query = mysqli_fetch_array($get_project_assigned))
+            	{
+            		array_push($store_project, $store_query['project_id']);
+            	}
+                          /*echo "<tr>
                 <td> ".$count++."</td>
                 <td>".$results['registered_user_id']."</td>
                 <td>".$results['registered_user_id']."</td>
                 
 
-                </tr>";
+                </tr>";*/
+                 echo '<tr>
+                <td> '.$count++.'</td>
+                <td>'.$results['registered_user_id'].'</td>';
+                echo '<td>'; if(sizeof($store_project)== 0){ echo "No project assigned!!";}else{foreach($store_project as $value){ echo $value." | ";}} echo'</td>';
+                
+
+                echo '</tr>';
                 
                 // posts results gotten from database(title and text) you can also show id ($results['id'])
             }
