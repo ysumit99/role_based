@@ -110,7 +110,7 @@ $manger_query = mysqli_query($con,"SELECT * FROM project WHERE manager = '$userL
                 	array_push($store_array, $print_users['user_id']);
 
                 }
-                          echo "<tr>
+                         /* echo "<tr>
                 <td> ".$count++."</td>
                 <td>".$results['project_id']."</td>
                 <td>".
@@ -118,7 +118,14 @@ $manger_query = mysqli_query($con,"SELECT * FROM project WHERE manager = '$userL
                 ."</td>
                 
 
-                </tr>";
+                </tr>";*/
+                 echo '<tr>
+                <td> '.$count++.'</td>
+                <td>'.$results['project_id'].'</td>';
+                echo '<td>'; if(sizeof($store_array)== 0){ echo "No project assigned!!";}else{foreach($store_array as $value){ echo $value." | ";}} echo'</td>';
+                
+
+                echo '</tr>';
                 
                 // posts results gotten from database(title and text) you can also show id ($results['id'])
             }
