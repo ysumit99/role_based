@@ -35,6 +35,23 @@
   	}
    }
 
+   if(isset($_POST['login_user']))
+  {
+    $username = strip_tags($_POST['user_id']);
+    $password = strip_tags($_POST['password']);
+    $password = md5($password);
+    $_SESSION['user_id'] = $username;
+
+    $check_user = mysqli_query($con,"SELECT * FROM user WHERE registered_user_id = '$username' AND password = '$password' ");
+    if(mysqli_num_rows($check_user) > 0)
+    {
+    	header("Location: welcome_user.php");
+    }
+  	else
+  	{
+  		echo "Incorrect userid or password! Please try again..";
+  	}
+   }
 
 
   

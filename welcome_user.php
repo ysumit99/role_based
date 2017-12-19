@@ -1,13 +1,7 @@
-<?php
-require('config.php');
-
-$manger_query = mysqli_query($con,"SELECT * FROM manager");
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Welcome Admin</title>
+	<title>Welcome User</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
@@ -38,7 +32,7 @@ $manger_query = mysqli_query($con,"SELECT * FROM manager");
 			  </div>
 
 			   <?php 
-					
+					require('config.php');
 					session_start();
 					  if(isset($_SESSION['user_id'])) {
 					  $userLoggedIn = $_SESSION['user_id'];
@@ -75,56 +69,14 @@ $manger_query = mysqli_query($con,"SELECT * FROM manager");
 			
 			</div>
 		</nav>
+		<br><br><br>
 		<div class="row">
-			<div class="col-md-2 col-md-offset-1">
-				<a href="welcome_admin.php"><button type="button" class="btn btn-danger" > <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</button></a>
+			<div class="col-md-4 col-md-offset-4">
+				<a href="view_project_user.php"><button class="btn btn-primary btn-block">View Projects</button></a>
 			</div>
 		</div>
-		<br>
+		
+		
 
-		<div class="col-md-8 col-md-offset-2">
-    <div class="well">
-        <center><h4 style="color:green;">Managers</h4></center>
-
-            <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Manager</th>
-                    <th>Users Created</th>
-                  </tr>
-                </thead>
-                <tbody>
-            <?php
-            $count = 1;
-             
-            while($results = mysqli_fetch_array($manger_query)){
-            // $results = mysql_fetch_array($raw_results) puts data from database into array, while it's valid it does the loop
-            	$temp = $results['user_id'];
-            	$store_user = array();
-
-            	$get_users_assigned = mysqli_query($con,"SELECT * FROM project_assignment WHERE manager = '$temp' ");
-            	while($store_query = mysqli_fetch_array($get_users_assigned))
-            	{
-            		array_push($store_user, $store_query['user_id']);
-            	}
-            	
-                          echo '<tr>
-                <td> '.$count++.'</td>
-                <td>'.$results['user_id'].'</td>';
-                echo '<td>'; if(sizeof($store_user)== 0){ echo "No Users created yet!!";}else{foreach($store_user as $value){ echo $value." | ";}} echo'</td>';
-                
-
-                echo '</tr>';
-                
-                // posts results gotten from database(title and text) you can also show id ($results['id'])
-            }
-
-            ?>
-            </tbody>
-            </table>
-        </div>
-    </div>
-
-	</body>
-	</html>
+</body>
+</html>

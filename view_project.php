@@ -1,5 +1,6 @@
 <?php
 require('config.php');
+//error_reporting(0);
 
 $project_query = mysqli_query($con,"SELECT * FROM project");
 
@@ -101,14 +102,21 @@ $project_query = mysqli_query($con,"SELECT * FROM project");
              
             while($results = mysqli_fetch_array($project_query)){
             // $results = mysql_fetch_array($raw_results) puts data from database into array, while it's valid it does the loop
-                          echo "<tr>
-                <td> ".$count++."</td>
-                <td>".$results['project_id']."</td>
-                <td>".$results['project_id']."</td>
-                <td>".$results['project_id']."</td>
+            	$temp = $results['project_id'];
+            	$get_user_assigned = mysqli_query($con,"SELECT * FROM project_assignment WHERE project_id = '$temp' ");
+            	$store_user = array();
+
+            	while($store_query = mysqli_fetch_array($get_user_assigned))
+            	{
+            		array_push($store_user, $store_query['user_id']);
+            	}
+                          echo '<tr>
+                <td> '.$count++.'</td>
+                <td>'.$results['project_id'].'</td> <td>'.$results['manager'].'</td>';
+                echo '<td>'; if(sizeof($store_user)== 0){ echo "No Users created yet!!";}else{foreach($store_user as $value){ echo $value." | ";}} echo'</td>';
                 
 
-                </tr>";
+                echo '</tr>';
                 
                 // posts results gotten from database(title and text) you can also show id ($results['id'])
             }

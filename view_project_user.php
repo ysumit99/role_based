@@ -1,13 +1,27 @@
 <?php
-require('config.php');
+	require('config.php');
+	session_start();
+	  if(isset($_SESSION['user_id'])) {
+	  $userLoggedIn = $_SESSION['user_id'];
+	  
+	 }
+	 else {
+	    header("Location: login.php");
+	 }
+	  if(isset($_POST['logout']))
+	  {
+	    
+	  session_destroy();
+	  header('location: login.php');
+	  }
 
-$manger_query = mysqli_query($con,"SELECT * FROM manager");
+$manger_query = mysqli_query($con,"SELECT * FROM project_assignment WHERE user_id = '$userLoggedIn' ");
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Welcome Admin</title>
+	<title>View User</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
@@ -39,20 +53,7 @@ $manger_query = mysqli_query($con,"SELECT * FROM manager");
 
 			   <?php 
 					
-					session_start();
-					  if(isset($_SESSION['user_id'])) {
-					  $userLoggedIn = $_SESSION['user_id'];
-					  
-					 }
-					 else {
-					    header("Location: login.php");
-					 }
-					  if(isset($_POST['logout']))
-					  {
-					    
-					  session_destroy();
-					  header('location: login.php');
-					  }
+					
 
 				?>
 
@@ -77,21 +78,21 @@ $manger_query = mysqli_query($con,"SELECT * FROM manager");
 		</nav>
 		<div class="row">
 			<div class="col-md-2 col-md-offset-1">
-				<a href="welcome_admin.php"><button type="button" class="btn btn-danger" > <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</button></a>
+				<a href="welcome_user.php"><button type="button" class="btn btn-danger" > <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</button></a>
 			</div>
 		</div>
 		<br>
 
 		<div class="col-md-8 col-md-offset-2">
     <div class="well">
-        <center><h4 style="color:green;">Managers</h4></center>
+        <center><h4 style="color:green;">Projects assigned to you</h4></center>
 
             <table class="table table-striped">
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Manager</th>
-                    <th>Users Created</th>
+                    <th>Project</th>
+                    <th>Manager Assigned</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -99,23 +100,16 @@ $manger_query = mysqli_query($con,"SELECT * FROM manager");
             $count = 1;
              
             while($results = mysqli_fetch_array($manger_query)){
-            // $results = mysql_fetch_array($raw_results) puts data from database into array, while it's valid it does the loop
-            	$temp = $results['user_id'];
-            	$store_user = array();
-
-            	$get_users_assigned = mysqli_query($con,"SELECT * FROM project_assignment WHERE manager = '$temp' ");
-            	while($store_query = mysqli_fetch_array($get_users_assigned))
-            	{
-            		array_push($store_user, $store_query['user_id']);
-            	}
-            	
-                          echo '<tr>
-                <td> '.$count++.'</td>
-                <td>'.$results['user_id'].'</td>';
-                echo '<td>'; if(sizeof($store_user)== 0){ echo "No Users created yet!!";}else{foreach($store_user as $value){ echo $value." | ";}} echo'</td>';
+           
+                          echo "<tr>
+                <td> ".$count++."</td>
+                <td>".$results['project_id']."</td>
+                <td>".
+               $results['manager']
+                ."</td>
                 
 
-                echo '</tr>';
+                </tr>";
                 
                 // posts results gotten from database(title and text) you can also show id ($results['id'])
             }
