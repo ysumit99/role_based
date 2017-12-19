@@ -13,7 +13,7 @@ if(isset($_POST['create_project']))
 	
 	if(mysqli_num_rows($check_query) == 0)
 	{
-		$insert_query = mysqli_query($con,"INSERT INTO project VALUES (NULL,'$project_id')");
+		$insert_query = mysqli_query($con,"INSERT INTO project VALUES (NULL,'$project_id',0,'')");
 	}
 	else
 	{

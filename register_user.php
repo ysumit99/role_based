@@ -1,5 +1,19 @@
 <?php
-require('config.php');
+	require('config.php');
+	session_start();
+	  if(isset($_SESSION['user_id'])) {
+	  $userLoggedIn = $_SESSION['user_id'];
+	  
+	 }
+	 else {
+	    header("Location: login.php");
+	 }
+	  if(isset($_POST['logout']))
+	  {
+	    
+	  session_destroy();
+	  header('location: login.php');
+	  }
 
 $error_array = array();//stores error message of duplicate user
 
@@ -10,11 +24,11 @@ if(isset($_POST['register_user']))
     $password = md5($password);
 
     //check if already exists
-	$check_query = mysqli_query($con,"SELECT * FROM manager WHERE user_id = '$manager_id'");
+	$check_query = mysqli_query($con,"SELECT * FROM user WHERE registered_user_id = '$registered_user_id'");
 	
 	if(mysqli_num_rows($check_query) == 0)
 	{
-		$insert_query = mysqli_query($con,"INSERT INTO manager VALUES (NULL,'$manager_id','$password')");
+		$insert_query = mysqli_query($con,"INSERT INTO user VALUES (NULL,'$registered_user_id','$password','$userLoggedIn')");
 	}
 	else
 	{
@@ -65,20 +79,7 @@ if(isset($_POST['register_user']))
 
 			   <?php 
 					
-					session_start();
-					  if(isset($_SESSION['user_id'])) {
-					  $userLoggedIn = $_SESSION['user_id'];
-					  
-					 }
-					 else {
-					    header("Location: login.php");
-					 }
-					  if(isset($_POST['logout']))
-					  {
-					    
-					  session_destroy();
-					  header('location: login.php');
-					  }
+					
 
 				?>
 
@@ -103,7 +104,7 @@ if(isset($_POST['register_user']))
 		</nav>
 		<div class="row">
 			<div class="col-md-2 col-md-offset-1">
-				<a href="welcome_admin.php"><button type="button" class="btn btn-danger" > <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</button></a>
+				<a href="welcome_manager.php"><button type="button" class="btn btn-danger" > <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</button></a>
 			</div>
 		</div>
 		<br>
@@ -111,7 +112,7 @@ if(isset($_POST['register_user']))
 		<div class="col-md-6 col-md-offset-3">
 			<form method="POST">
 		        	
-					 <input type="text" class="form-control" placeholder="Username" name="manager_id" required>
+					 <input type="text" class="form-control" placeholder="User id" name="registered_user_id" required>
 						<span class="error">
               <?php if(in_array("This user name is already taken!!<br>", $error_array))  echo "This user name is already taken!!<br>";
              ?></span>
@@ -120,7 +121,7 @@ if(isset($_POST['register_user']))
 					 <input type="password" class="form-control" placeholder="Password" name="password" required>
 					 <br>
 
-					 <button class="btn btn-success btn-block" name="register_manager">Register Manager</button>
+					 <button class="btn btn-success btn-block" name="register_user">Register User</button>
 
 		        </form>
 
